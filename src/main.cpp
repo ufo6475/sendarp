@@ -89,7 +89,7 @@ int main(int argc, char* argv[]) {
 	//Find my MAC address
 	struct ifreq * ifr = getMAC(argv[1]);
 	unsigned char *mymac= (unsigned char*) ifr->ifr_hwaddr.sa_data;
-	//printf("%s : %02x:%02x:%02x:%02x:%02x:%02x\n",ifr->ifr_name,mymac[0],mymac[1],mymac[2],mymac[3],mymac[4],mymac[5]);
+	printf("%s : %02x:%02x:%02x:%02x:%02x:%02x\n",ifr->ifr_name,mymac[0],mymac[1],mymac[2],mymac[3],mymac[4],mymac[5]);
 
 	//Find my IP address
 	
@@ -113,7 +113,8 @@ int main(int argc, char* argv[]) {
 
 	char myMAC[20];
 	sprintf(myMAC,"%02x:%02x:%02x:%02x:%02x:%02x",mymac[0],mymac[1],mymac[2],mymac[3],mymac[4],mymac[5]);
-	
+
+
 	packet.eth_.smac_ = Mac(myMAC);
 	packet.eth_.type_ = htons(EthHdr::Arp);
 	packet.arp_.hrd_ = htons(ArpHdr::ETHER);
@@ -310,7 +311,7 @@ int main(int argc, char* argv[]) {
 		pcap_close(pcap);	
 	}
 	*/
-	//printf("My MAC:%s\n",myMAC);
+	printf("My MAC:%s\n",myMAC);
 	//printf("%s\n%s\n",sender_MAC,target_MAC);
 
 
@@ -337,10 +338,12 @@ int main(int argc, char* argv[]) {
 	ipacket.arp_.tmac_ = Mac(sender_MAC);
 	ipacket.arp_.tip_ = htonl(Ip(argv[idx]));
 
+	/*
 	int res = pcap_sendpacket(handle, reinterpret_cast<const u_char*>(&ipacket), sizeof(EthArpPacket));
 	if (res != 0) {
 		fprintf(stderr, "pcap_sendpacket return %d error=%s\n", res, pcap_geterr(handle));
 	}
+	*/
 	pcap_close(handle);
 	}
 	
